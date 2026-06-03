@@ -5,6 +5,10 @@
 #include "game.h"
 #include "input.h"
 
+GameMode gamemodes[GAME_MODE_COUNT];
+GameState gamestate = {0};
+
+
 ControllerState prev_input = {0};
 int selected_mode = 0;
 
@@ -117,7 +121,7 @@ void _updateGame(ControllerState *cs)
 
 void _startGame()
 {
-    printf("Mode(%d) score: %d\n", selected_mode, highscores[selected_mode]);
+    printf("Mode(%d) score: %lu\n", selected_mode, highscores[selected_mode]);
     gamestate.player_pos = 0;
     gamestate.score = 0;
     gamestate.highscore = highscores[selected_mode];

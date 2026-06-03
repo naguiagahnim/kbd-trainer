@@ -93,7 +93,7 @@ void _updateScore(SDL_Renderer *renderer)
         SDL_DestroyTexture(score_texture);
     
     
-    snprintf(scoreText, 32, "%06lld\0", gamestate.score);
+    snprintf(scoreText, 32, "%06lu", gamestate.score);
     SDL_Surface *scoreSurface = TTF_RenderText_Solid(score_font, scoreText, strlen(scoreText), scoreColor);
     
     score_texture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
@@ -107,7 +107,7 @@ void _updateScore(SDL_Renderer *renderer)
     if (highscore_texture != NULL)
     SDL_DestroyTexture(highscore_texture);
     
-    snprintf(scoreText, 32, "%06lld\0", gamestate.highscore);
+    snprintf(scoreText, 32, "%06lu", gamestate.highscore);
     scoreSurface = TTF_RenderText_Solid(score_font, scoreText, strlen(scoreText), scoreColor);
     
     highscore_texture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
