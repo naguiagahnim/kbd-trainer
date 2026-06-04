@@ -5,6 +5,7 @@
   sdl3,
   sdl3-image,
   sdl3-ttf,
+  makeDesktopItem,
 }:
 stdenv.mkDerivation {
   pname = "kbd-trainer";
@@ -12,11 +13,21 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  nativeBuildInputs = [ cmake ];
+  nativeBuildInputs = [cmake];
   buildInputs = [
     sdl3
     sdl3-image
     sdl3-ttf
+  ];
+
+  desktopItems = [
+    (
+      makeDesktopItem {
+        name = "kbdtrainer";
+        exec = "KBDTrainer";
+        desktopName = "KBD-Trainer";
+      }
+    )
   ];
 
   meta = {
