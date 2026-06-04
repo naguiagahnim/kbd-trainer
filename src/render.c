@@ -35,17 +35,19 @@ SDL_Texture *menu_textures[GAME_MODE_COUNT];
 // Initialize Textures
 bool InitTextures(SDL_Renderer *renderer)
 {
+    const char *basePath = SDL_GetBasePath();
+    char assetPath[512];
     SDL_Texture *curr = NULL;
 
     for (int i = 0; i < sizeof(_directionAssets) / sizeof(const char*); i++)
     {
-        curr = IMG_LoadTexture(renderer, _directionAssets[i]);    
+        snprintf(assetPath, sizeof(assetPath), "%s%s", basePath, _directionAssets[i]);
+        curr = IMG_LoadTexture(renderer, assetPath);
         if (curr == NULL)
         {
-            printf("Error loading asset(%s): %s\n", _directionAssets[i], SDL_GetError());
+            printf("Error loading asset(%s): %s\n", assetPath, SDL_GetError());
             return false;
         }
-
         direction_textures[i] = curr;
     }
 
@@ -53,29 +55,30 @@ bool InitTextures(SDL_Renderer *renderer)
     highscore_texture = NULL;
     score_texture = NULL;
 
-    score_font = TTF_OpenFont(_fontAsset, 24);
+    snprintf(assetPath, sizeof(assetPath), "%s%s", basePath, _fontAsset);
+    score_font = TTF_OpenFont(assetPath, 24);
     if (score_font == NULL)
     {
-        printf("Error loading font asset(%s): %s\n", _fontAsset, SDL_GetError());
+        printf("Error loading font asset(%s): %s\n", assetPath, SDL_GetError());
         return false;
     }
 
     // Build input acc result textures
     SDL_Surface *surface;
     acc_textures[0] = NULL;
-    
-    SDL_Color successColor =  {51, 255, 51};
+
+    SDL_Color successColor = {51, 255, 51};
     const char *successText = "GREAT";
     surface = TTF_RenderText_Solid(score_font, successText, strlen(successText), successColor);
     acc_textures[SUCCESS] = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_DestroySurface(surface);
-    
+
     SDL_Color failColor = {255, 51, 51};
     const char *failText = "MISS";
     surface = TTF_RenderText_Solid(score_font, failText, strlen(failText), failColor);
     acc_textures[FAIL] = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_DestroySurface(surface);
- 
+
     return true;
 }
 
